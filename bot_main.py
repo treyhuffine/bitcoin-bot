@@ -6,6 +6,8 @@
 Author: Trey Huffine
 *************************************************************************************"""
 
+from numpy import *
+from trade_helper import *
 from tradingstrategies import *
 import sys
 

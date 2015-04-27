@@ -24,13 +24,3 @@ def get_current_price(asset_url):
 # Append the current price to the price time series
 def append_prices(price_series, current_price):
     return column_stack([price_series, current_price])
-
-# Calculate profit
-def portfolio_value(shares, cash, price):
-    return (shares * price) + cash
-
-# Cumulative returns
-# def cumulative_return(original_cash, current_value):
-#     return (current_value/original_cash) - 1
-
-# Execut

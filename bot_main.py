@@ -50,5 +50,5 @@ while True:
     break
 
 """
-Append current time and return value to a ts of portfolio value
+    Append current time and return value to a ts of portfolio value
 """

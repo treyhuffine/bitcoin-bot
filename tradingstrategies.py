@@ -6,7 +6,7 @@ class TradingStrategies(object):
     def __init__(self, cash, trade_frequency, strategy):
         self.strategy = strategy
         self.cash = cash
-        self.portfolio_val = cash
+        self.portfolio_val = None
         self.trade_frequency = trade_frequency
         self.current_shares = 0
         self.trade = 0
@@ -17,21 +17,17 @@ class TradingStrategies(object):
         print self.strategy + "\n"
 
     def number_shares(self, curr_price):
-        change_shares = self.trade - self.current_shares
-        num_to_trade = change_shares * (self.portfolio_val / curr_price)
-        self.cash = self.cash - (num_to_trade * curr_price)
-        self.current_shares = num_to_trade
-        self.number_shares = append(self.number_shares, self.num_to_trade)
+        total_to_own = self.portfolio_val * self.trade
+        change_shares = (total_to_own / curr_price) - self.current_shares
+        self.cash = self.cash - (change_shares * curr_price)
+        self.current_shares = (self.portfolio_val-self.cash) / curr_price
+        self.num_shares = append(self.num_shares, self.current_shares)
 
     def portfolio_value(self, curr_price):
         self.portfolio_val = (self.current_shares * curr_price) + self.cash
 
     def value_series(self):
         self.portfolio_series = append(self.portfolio_series, self.portfolio_val)
-
-    def calculate_profit(self):
-        # calculate running value and current value
-        pass
 
     def cumulative_return(self, original_cash, current_value):
         return (current_value/original_cash) - 1
@@ -46,9 +42,13 @@ class MovingAverage(TradingStrategies):
         self.ma_days = ma_days
         TradingStrategies.__init__(self, cash, trade_frequency, "Moving Average")
 
-    def execute_trade(self, price_series):
+    def execute_trade(self, price_series,curr_price):
         # perform all steps for the trade and calculaing values
-        self.calculate_shares(self, price_series)
+        self.portfolio_value(curr_price)
+        self.value_series()
+        self.calculate_shares(price_series)
+        self.number_shares(curr_price)
+
 
     def calc_moving_average(self, price_series):
         return sum(price_series)/float(self.ma_days)

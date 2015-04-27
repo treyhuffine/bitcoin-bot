@@ -32,7 +32,8 @@ while True:
     else:
         print "\nNot a currently available strategy. Try again or type 'end'.\n"
 
-cash = 1000000 # $100,000 starting cash initially
+original_cash = 1000000 # $100,000 starting cash initially
+cash = original_cash
 trade_frequency = 60 * 60 * 24 # daily frequency initially
 ma_days = 5
 optimization_fit = 30 # currently unused
@@ -45,3 +46,7 @@ else:
 
 while True:
     break
+
+"""
+Append current time and return value to a ts of portfolio value
+"""

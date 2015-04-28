@@ -1,5 +1,7 @@
 from numpy import *
 from trade_helper import *
+import matplotlib
+import matplotlib.pyplot as plt
 
 """
     Parent class all strategies will inherit from. Performs main rebalancing and tracks portoflio value.
@@ -35,8 +37,24 @@ class TradingStrategies(object):
     def cumulative_return(self, original_cash, current_value):
         return (current_value/original_cash) - 1
 
-    def calculate_trade(self):
+    def calculate_shares(self):
         pass
+
+    def print_portfolio(self):
+        print "Current value: ", self.portfolio_val
+
+    def save_portfolio_to_file(self):
+        fd = open('portfolio_values.csv','a')
+        fd.write('%s,' % self.portfolio_val)
+        fd.close()
+
+    def plot_portfolio_value(self):
+        print self.portfolio_series
+        plt.plot(self.portfolio_series, 'b')
+        plt.xlabel("Trade")
+        plt.ylabel("Value ($)")
+        plt.title("Portfolio Value")
+        plt.savefig('portfolio_values')
 
 """
     For children, make purpose is to calculate number of shares to purchase given that strategy
@@ -60,7 +78,6 @@ class MovingAverage(TradingStrategies):
         self.number_shares(curr_price)
 
     def calc_moving_average(self, price_series):
-        print self.ma_days
         return sum(price_series)/float(self.ma_days)
 
     # Calcutes shares to own for the moving average strategy
@@ -78,3 +95,9 @@ class MovingAverage(TradingStrategies):
 
         self.trade = share_new
 
+
+"""
+    Implement the robust optimization technique via CVX
+"""
+class RobustOptimiztion(TradingStrategies):
+    pass

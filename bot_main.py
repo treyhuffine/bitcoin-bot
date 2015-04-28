@@ -12,6 +12,7 @@ from tradingstrategies import *
 import sys
 import time
 
+
 # Initialize the program
 strategy = None
 # use blockchain url that has daily historical prices in JSON
@@ -69,6 +70,7 @@ elif isinstance(strategy, basestring) and strategy.lower() == "__test":
         print bot_ma.portfolio_val
         print bot_ma.current_shares
         print price_series
+        bot_ma.print_portfolio()
 else:
     sys.exit("\n** Strategy not yet available. Reload program.\n")
 
@@ -80,9 +82,10 @@ else:
 price_series = get_price_history(asset_url)
 current_price = price_series[-1]
 while True:
-    price_series = get_price_history(asset_url)
-    current_price = price_series[-1]
-    bot_ma.execute_trade(price_series[0])
+    bot_ma.execute_trade(price_series[0], current_price[0])
     time.sleep(1)
     current_price = get_current_price(asset_url)
     price_series = append_prices(price_series, current_price)
+    bot_ma.save_portfolio_to_file()
+    bot_ma.print_portfolio()
+    bot_ma.plot_portfolio_value()

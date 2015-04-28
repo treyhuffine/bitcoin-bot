@@ -1,3 +1,8 @@
+"""
+    Helper functions to make api calls and generate price series.
+"""
+
+
 from numpy import *
 import urllib2
 import json
